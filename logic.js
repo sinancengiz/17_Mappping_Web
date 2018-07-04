@@ -12,21 +12,26 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
     accessToken: 'pk.eyJ1Ijoic2luYW5jZW5naXoiLCJhIjoiY2ppZHVwMXZnMGZqaTNxcWw0NWxhN3YwNSJ9.RVV5UmzSmoeu4xd1Wh4iHA'
 }).addTo(mymap);
 
+
 var southWest = L.latLng(-89.98155760646617, -190),
 northEast = L.latLng(89.99346179538875, 190);
 var bounds = L.latLngBounds(southWest, northEast);
+
 
 mymap.setMaxBounds(bounds);
 mymap.on('drag', function() {
     mymap.panInsideBounds(bounds, { animate: false });
 });
 
+
 var url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
+
 
 d3.json(url, function(data) {
     useData(data);
     console.log(data)
 });
+
 function getColor(d) {
     return d > 5 ? '#800026' :
            d > 4.5  ? '#BD0026' :
@@ -54,7 +59,6 @@ function createCircleMarker( feature, latlng ){
       fillOpacity: 0.7
     }
 
-
     return L.circleMarker( latlng, options ).bindPopup("<h1> Place : " + feature.properties.place + "</h1> <hr> <h3>Magnitude : " + feature.properties.mag + "</h3>");
   }
 
@@ -65,7 +69,7 @@ function useData(newData){
     }).addTo(mymap)
 
  }
-   
+
 var info = L.control();
 
 info.onAdd = function (map) {
@@ -81,7 +85,6 @@ info.update = function (props) {
 };
 
 info.addTo(mymap);
-
 
 var legend = L.control({position: 'bottomright'});
 
@@ -103,6 +106,38 @@ legend.onAdd = function (map) {
 
 legend.addTo(mymap);
 
+
+var light = L.tileLayer(
+    "https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?" +
+      "access_token=pk.eyJ1Ijoic2luYW5jZW5naXoiLCJhIjoiY2ppZHVwMXZnMGZqaTNxcWw0NWxhN3YwNSJ9.RVV5UmzSmoeu4xd1Wh4iHA" 
+);
+
+var dark = L.tileLayer(
+    "https://api.mapbox.com/styles/v1/mapbox/dark-v9/tiles/256/{z}/{x}/{y}?" +
+      "access_token=pk.eyJ1Ijoic2luYW5jZW5naXoiLCJhIjoiY2ppZHVwMXZnMGZqaTNxcWw0NWxhN3YwNSJ9.RVV5UmzSmoeu4xd1Wh4iHA"
+);
+
+var satellite = L.tileLayer(
+    "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/256/{z}/{x}/{y}?" +
+      "access_token=pk.eyJ1Ijoic2luYW5jZW5naXoiLCJhIjoiY2ppZHVwMXZnMGZqaTNxcWw0NWxhN3YwNSJ9.RVV5UmzSmoeu4xd1Wh4iHA"
+);
+
+  var baseMaps = {
+    Light: light,
+    Dark: dark,
+    Satellite:satellite
+  };
+
+var link = "https://github.com/fraxen/tectonicplates/blob/master/GeoJSON/PB2002_plates.json"
+
+d3.json(link, function(data) {
+    L.geoJson(data,{ }).addTo(mymap)
+});
+
+
+
+  // Add the layer control to the map
+L.control.layers(baseMaps).addTo(mymap);
 
 
 
