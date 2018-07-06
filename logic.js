@@ -68,7 +68,7 @@ function useData(newData){
         pointToLayer: createCircleMarker 
     }).addTo(mymap)
 
- }
+}
 
 var info = L.control();
 
@@ -97,7 +97,7 @@ legend.onAdd = function (map) {
     // loop through our density intervals and generate a label with a colored square for each interval
     for (var i = 0; i < grades.length; i++) {
         div.innerHTML +=
-            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+            '<i style="background:' + getColor(grades[i]) + '"></i> ' +
             grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] +' Mag'+ '<br>' : '+');
     }
 
@@ -128,13 +128,6 @@ var satellite = L.tileLayer(
     Satellite:satellite
   };
 
-var link = "https://github.com/fraxen/tectonicplates/blob/master/GeoJSON/PB2002_plates.json"
-
-d3.json(link, function(data) {
-    L.geoJson(data,{ }).addTo(mymap)
-});
-
-
 
   // Add the layer control to the map
 L.control.layers(baseMaps).addTo(mymap);
@@ -142,4 +135,27 @@ L.control.layers(baseMaps).addTo(mymap);
 
 
 
+var url2 = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json";
+
+d3.json(url2, function(data) {
+    useData2(data);
+    console.log(data)
+});
+
+function createPlateLines( feature, latlng ){
+    // Change the values of these options to change the symbol's appearance
+    console.log(latlng);
+    console.log(feature);
+    var latlngs = feature.geometry.coordinates;
+
+     
+    return L.polyline(latlngs, {color: 'red'});
+  }
+function useData2(newData){
+    
+    geojson =  L.geoJson(newData,{
+         pointToLayer: createPlateLines 
+     }).addTo(mymap)
+ 
+ }
 
