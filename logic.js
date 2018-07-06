@@ -135,7 +135,7 @@ L.control.layers(baseMaps).addTo(mymap);
 
 
 
-var url2 = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json";
+var url2 = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
 
 d3.json(url2, function(data) {
     useData2(data);
