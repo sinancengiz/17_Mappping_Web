@@ -151,6 +151,7 @@ function createPlateLines( feature, latlng ){
      
     return L.polyline(latlngs, {color: 'red'});
   }
+
 function useData2(newData){
     
     geojson =  L.geoJson(newData,{
@@ -158,4 +159,5 @@ function useData2(newData){
      }).addTo(mymap)
  
  }
+
 
