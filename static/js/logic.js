@@ -1,7 +1,7 @@
-var mymap = L.map('map').setView([30, 0], 3);
+var mymap = L.map('map').setView([40, 0], 3);
 
-mymap.options.minZoom = 3;
-mymap.options.maxZoom = 8;
+mymap.options.minZoom = 2;
+mymap.options.maxZoom = 18;
 
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -59,6 +59,7 @@ function createCircleMarker( feature, latlng ){
       fillOpacity: 0.7
     }
 
+    
     return L.circleMarker( latlng, options ).bindPopup("<h1> Place : " + feature.properties.place + "</h1> <hr> <h3>Magnitude : " + feature.properties.mag + "</h3>");
   }
 
@@ -79,7 +80,7 @@ info.onAdd = function (map) {
 };
 
 info.update = function (props) {
-    this._div.innerHTML = '<h4>World Earthquake Map</h4>' +  (props ?
+    this._div.innerHTML = '<h4>Recent Earthquakes Map</h4>' +  (props ?
         '<b>' + props.mag + '</b><br />' + props.mag + ' people / mi<sup>2</sup>'
         : 'Click on a Circle to See Details');
 };
@@ -154,10 +155,10 @@ function createPlateLines( feature, latlng ){
 
 function useData2(newData){
     
-    geojson =  L.geoJson(newData,{
-         pointToLayer: createPlateLines 
-     }).addTo(mymap)
- 
+    //geojson =  L.geoJson(newData,{
+    //     pointToLayer: createPlateLines 
+    // }).addTo(mymap)
+     
  }
 
 
